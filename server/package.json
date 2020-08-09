@@ -1,0 +1,24 @@
+{
+  "name": "url-shortener-server",
+  "version": "1.0.0",
+  "description": "Server portion of the URL shortener",
+  "main": "index.js",
+  "scripts": {
+    "watch": "nodemon src/app.js",
+    "start": "node src/app.js"
+  },
+  "author": "mladenbrankovic",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "shortid": "^2.2.15",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
+    "valid-url": "^1.0.9"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

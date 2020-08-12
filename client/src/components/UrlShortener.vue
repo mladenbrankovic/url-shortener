@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1>brnk.vc</h1>
+    <h1>{{ domain }}</h1>
     <h2>url shortener</h2>
 
     <div class="input">
@@ -32,7 +32,9 @@
 export default {
   name: 'UrlShortener',
   data() {
+    const config = require('../../../config');
     return {
+      domain: config.DOMAIN,
       axios: require('axios').default,
       urlValidator: require('valid-url'),
       longUrl: '',

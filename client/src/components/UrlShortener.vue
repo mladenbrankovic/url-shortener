@@ -145,6 +145,7 @@ button {
   color: white;
   border: none;
   border-radius: 0.3rem 1rem;
+  cursor: pointer;
 
   &:hover {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);

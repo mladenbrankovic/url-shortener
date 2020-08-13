@@ -16,8 +16,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import url('assets/scss/_reset.scss');
-
 html,
 body {
   height: 100%;

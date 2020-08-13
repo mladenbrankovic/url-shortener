@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <UrlShortener />
-  </div>
+  <main id="app">
+    <url-shortener></url-shortener>
+  </main>
 </template>
 
 <script>
@@ -23,7 +23,7 @@ body {
   height: 100%;
 }
 
-#app {
+main {
   font-family: sans-serif;
   min-height: 100%;
   background: white;
@@ -33,4 +33,3 @@ body {
   align-items: center;
 }
 </style>
-

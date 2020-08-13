@@ -1,73 +1,69 @@
 <template>
-  <main>
+  <section>
     <h1>{{ domain }}</h1>
     <h2>url shortener</h2>
-
     <div class="input">
       <input
         type="text"
-        v-model="longUrl"
+        v-model="long"
         placeholder="https://github.com/mladenbrankovic"
         onfocus="this.placeholder = ''"
         onblur="this.placeholder = 'https://github.com/mladenbrankovic'"
-        :class="{ invalid: !urlValid }"
+        :class="{ invalid: !valid }"
       />
       <p v-if="error">{{ error }}</p>
     </div>
-
     <button @click="shorten">shorten</button>
-
-    <div class="result" v-if="shortUrl">
+    <div class="result" v-if="short">
       <p>url shortened to</p>
       <div class="url">
-        <a id="shortUrl" :href="shortUrl" target="_blank">{{ shortUrl }}</a>
+        <a id="short" :href="short" target="_blank">{{ short }}</a>
         <img v-if="!copied" src="../assets/img/copy.png" alt="copy" @click="copy" />
         <img v-else src="../assets/img/check.png" alt="copied" @click="copy" />
       </div>
     </div>
-  </main>
+  </section>
 </template>
 
 <script>
 export default {
   name: 'UrlShortener',
   data() {
-    const config = require('../../../config');
     return {
-      domain: config.DOMAIN,
+      domain: require('~/src/config').domain,
       axios: require('axios').default,
-      urlValidator: require('valid-url'),
-      longUrl: '',
-      shortUrl: '',
+      validator: require('valid-url'),
+      long: '',
+      short: '',
       error: '',
-      urlValid: true,
+      valid: true,
       copied: false,
     };
   },
   methods: {
     async shorten() {
       this.error = '';
-      this.shortUrl = '';
-      this.urlValid = true;
+      this.short = '';
+      this.valid = true;
       this.copied = false;
 
-      if (!this.longUrl) {
+      if (!this.long) {
         this.error = 'error: no url entered';
-        this.urlValid = false;
+        this.valid = false;
         return;
       }
 
-      if (!this.urlValidator.isUri(this.longUrl)) {
+      if (!this.validator.isUri(this.long)) {
         this.error = 'error: url is malformed';
-        this.urlValid = false;
+        this.valid = false;
         return;
       }
 
-      // this.shortUrl = await this.axios.get('http://localhost:8081/api/test');
+      // this.short = await this.axios.get('http://localhost:8081/api/test');
     },
     copy() {
       const helper = document.createElement('textarea');
-      helper.value = this.shortUrl;
+      helper.value = this.short;
 
       helper.style.top = '0';
       helper.style.left = '0';
@@ -94,7 +90,7 @@ export default {
 <style scoped lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Roboto:wght@300;400&family=Ubuntu+Mono&display=swap');
 
-main {
+section {
   font-family: 'Roboto', sans-serif;
   width: 100%;
   height: 100%;
@@ -107,7 +103,7 @@ main {
 h1 {
   font-family: 'Montserrat', 'Roboto', sans-serif;
   font-size: 4rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 h2 {
@@ -152,18 +148,18 @@ button {
 
   &:hover {
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.2);
-    animation: 2s pulse infinite;
+    animation: 1.5s pulse infinite;
 
     @keyframes pulse {
       0% {
         box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
       }
 
-      30% {
+      40% {
         box-shadow: 0 0 0 0.5rem rgba(0, 0, 0, 0);
       }
 
-      50% {
+      70% {
         box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
       }
     }

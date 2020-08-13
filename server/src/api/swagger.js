@@ -1,15 +1,15 @@
-module.exports = (app) => {
-  const config = require('../../../config');
-  const swaggerJSDoc = require('swagger-jsdoc');
-  const swaggerUIExpress = require('swagger-ui-express');
+import swaggerJSDoc from 'swagger-jsdoc';
+import { serve, setup } from 'swagger-ui-express';
+import config from '~/src/config';
 
-  const v1Config = {
+export default (app) => {
+  const swaggerConfig = {
     swaggerDefinition: {
       openapi: '3.0.0',
       info: {
         version: '1.0.0',
-        title: config.DOMAIN + ' - API Reference',
-        description: 'Reference to the API of ' + config.DOMAIN,
+        title: config.domain + ' - API Reference',
+        description: 'Reference to the API of ' + config.domain,
         contact: {
           name: 'Mladen Brankovic',
           email: 'root@brankovic.dev',
@@ -21,15 +21,10 @@ module.exports = (app) => {
         },
       },
     },
-    apis: [
-      'src/app.js',
-      'src/api/swagger.js',
-      'src/api/routes.js',
-    ],
+    apis: ['src/app.js', 'src/api/swagger.js', 'src/api/routes.js'],
   };
 
-  const swaggerDocs = swaggerJSDoc(v1Config);
-  app.use('/api/docs', swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerDocs));
+  app.use('/api/docs', serve, setup(swaggerJSDoc(swaggerConfig)));
 
   /**
    * @swagger

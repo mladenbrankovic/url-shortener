@@ -4,8 +4,10 @@
   "description": "Server portion of the URL shortener",
   "main": "index.js",
   "scripts": {
-    "watch": "nodemon src/app.js",
-    "start": "node src/app.js"
+    "start": "nodemon --exec babel-node src/app.js",
+    "build": "npm run clean && babel ./ --out-dir dist/ --ignore ./node_modules --copy-files",
+    "deploy": "npm run build && node dist/src/app.js",
+    "clean": "rimraf dist/"
   },
   "author": "mladenbrankovic",
   "license": "MIT",
@@ -19,6 +21,12 @@
     "valid-url": "^1.0.9"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.11.1",
+    "@babel/node": "^7.10.5",
+    "@babel/preset-env": "^7.11.0",
+    "babel-plugin-root-import": "^6.5.0",
+    "nodemon": "^2.0.4",
+    "rimraf": "^3.0.2"
   }
 }

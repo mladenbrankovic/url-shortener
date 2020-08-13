@@ -1,15 +1,15 @@
-const express = require('express');
-const parser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const config = require('../../config');
+import { json } from 'body-parser';
+import cors from 'cors';
+import express from 'express';
+import { join } from 'path';
+import { port } from '~/src/config';
 
 const app = express();
 
-app.use(parser.json());
+app.use(json());
 app.use(cors());
 
-require('./api/swagger')(app);
+require('./api/swagger').default(app);
 
 /**
  * @swagger
@@ -19,7 +19,7 @@ require('./api/swagger')(app);
  *     tags: [Base]
  *     summary: Loads a small frontend to shorten URLs.
  */
-app.use('/', express.static(path.join(__dirname, '../../client/dist')));
+app.use('/', express.static(join(__dirname, '../../client/dist')));
 
 /**
  * @swagger
@@ -37,6 +37,6 @@ app.use('/', express.static(path.join(__dirname, '../../client/dist')));
  */
 app.get('/:code', async (req, res) => {});
 
-require('./api/routes')(app);
+require('./api/routes').default(app);
 
-app.listen(config.PORT);
+app.listen(port);

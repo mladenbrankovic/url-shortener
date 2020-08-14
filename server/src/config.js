@@ -1,6 +1,6 @@
 import { join } from 'path';
 
-export const port = 8081;
-export const domain = 'localhost:8081';
-export const dburl = 'localhost';
+export const appPort = 8081;
+export const baseUrl = 'http://localhost:8081';
+export const dbHost = 'localhost';
 export const frontendDist = join(__dirname, '../../client/dist');

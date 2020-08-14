@@ -14,7 +14,7 @@ const urlSchema = new Schema({
     required: true,
   },
   created: {
-    type: Date,
+    type: Number,
     required: true,
     default: Date.now(),
   },

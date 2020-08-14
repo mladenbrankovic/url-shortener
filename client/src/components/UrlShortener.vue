@@ -75,8 +75,6 @@ export default {
 
       const url = await this.axios.post(`${backendHost}/api/url`, { long: this.long });
 
-      console.log(url);
-
       if (url.data.error) {
         this.error = 'something went wrong. please try again';
         this.valid = false;
@@ -100,7 +98,7 @@ export default {
       try {
         document.execCommand('copy');
       } catch (err) {
-        console.error('Unable to copy', err);
+        this.error('unable to copy: ' + err.message.toLowerCase());
       }
 
       document.body.removeChild(helper);

@@ -1,15 +1,15 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUIExpress from 'swagger-ui-express';
-import config from '~/src/config';
+import { serve, setup } from 'swagger-ui-express';
+import { domain } from '~/src/config';
 
-export default (app) => {
+export function initSwagger(app) {
   const swaggerConfig = {
     swaggerDefinition: {
       openapi: '3.0.0',
       info: {
         version: '1.0.0',
-        title: config.domain + ' - API Reference',
-        description: 'Reference to the API of ' + config.domain,
+        title: domain + ' - API Reference',
+        description: 'Reference to the API of ' + domain,
         contact: {
           name: 'Mladen Brankovic',
           email: 'root@brankovic.dev',
@@ -24,7 +24,7 @@ export default (app) => {
     apis: ['src/app.js', 'src/api/swagger.js', 'src/api/routes.js'],
   };
 
-  app.use('/api/docs', swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerJSDoc(swaggerConfig)));
+  app.use('/api/docs', serve, setup(swaggerJSDoc(swaggerConfig)));
 
   /**
    * @swagger
@@ -54,4 +54,4 @@ export default (app) => {
    *       created:
    *         type: number
    */
-};
+}

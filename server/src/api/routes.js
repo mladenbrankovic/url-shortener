@@ -1,4 +1,4 @@
-export default (app) => {
+export function initRoutes(app) {
   /**
    * @swagger
    *
@@ -53,4 +53,4 @@ export default (app) => {
    *           $ref: '#/definitions/Error'
    */
   app.get('api/url/:code', async (req, res) => {});
-};
+}

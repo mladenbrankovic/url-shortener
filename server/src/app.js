@@ -1,17 +1,18 @@
-import parser from 'body-parser';
+import { json } from 'body-parser';
 import cors from 'cors';
-import express from 'express';
-import path from 'path';
-import routes from '~/src/api/routes';
-import swagger from '~/src/api/swagger';
-import config from '~/src/config';
+import express, { static as serveStatic } from 'express';
+import { join } from 'path';
+import { initRoutes } from '~/src/api/routes';
+import { initSwagger } from '~/src/api/swagger';
+import { port } from '~/src/config';
+import { notify } from '~/src/util/logger';
 
 const app = express();
 
-app.use(parser.json());
+app.use(json());
 app.use(cors());
 
-swagger(app);
+initSwagger(app);
 
 /**
  * @swagger
@@ -21,7 +22,7 @@ swagger(app);
  *     tags: [Base]
  *     summary: Loads a small frontend to shorten URLs.
  */
-app.use('/', express.static(path.join(__dirname, '../../client/dist')));
+app.use('/', serveStatic(join(__dirname, '../../client/dist')));
 
 /**
  * @swagger
@@ -39,6 +40,8 @@ app.use('/', express.static(path.join(__dirname, '../../client/dist')));
  */
 app.get('/:code', async (req, res) => {});
 
-routes(app);
+initRoutes(app);
 
-app.listen(config.port);
+app.listen(port, () => {
+  notify(`Server live on port ${port}`);
+});

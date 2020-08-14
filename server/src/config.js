@@ -1,5 +1,2 @@
-export default {
-  port: 8081,
-  domain: 'localhost:8081',
-  dburl: 'localhost:27017',
-};
+export const port = 8081;
+export const domain = 'localhost:8081';

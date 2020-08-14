@@ -1,4 +1,4 @@
-version: "3"
+version: '3'
 
 services:
   url-shortener:
@@ -7,4 +7,15 @@ services:
     container_name: url-shortener
     build: .
     ports:
-      - "8911:8081"
+      - '8911:8081'
+
+  url-shortener-db:
+    image: mongo:latest
+    hostname: url-shortener-db
+    container_name: url-shortener-db
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor

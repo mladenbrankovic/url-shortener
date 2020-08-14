@@ -10,7 +10,7 @@ services:
       - '8911:8081'
 
   url-shortener-db:
-    image: mongo:latest
+    image: mongo
     hostname: url-shortener-db
     container_name: url-shortener-db
     restart: always

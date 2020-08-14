@@ -22,17 +22,31 @@
         <img v-else src="../assets/img/check.png" alt="copied" @click="copy" />
       </div>
     </div>
+    <p class="links">
+      <a :href="backendHost + '/api/docs'" target="_blank">API Docs</a>
+      ·
+      <a
+        href="https://github.com/mladenbrankovic/url-shortener"
+        target="_blank"
+        rel="noopener noreferrer"
+        >GitHub</a
+      >
+    </p>
   </section>
 </template>
 
 <script>
+import { domain, backendHost } from '~/src/config';
+import { default as axiosDefault } from 'axios';
+import { isUri } from 'valid-url';
+
 export default {
   name: 'UrlShortener',
   data() {
     return {
-      domain: require('~/src/config').domain,
-      axios: require('axios').default,
-      validator: require('valid-url'),
+      domain: domain,
+      backendHost: backendHost,
+      axios: axiosDefault,
       long: '',
       short: '',
       error: '',
@@ -53,13 +67,23 @@ export default {
         return;
       }
 
-      if (!this.validator.isUri(this.long)) {
+      if (!isUri(this.long)) {
         this.error = 'error: url is malformed';
         this.valid = false;
         return;
       }
 
-      // this.short = await this.axios.get('http://localhost:8081/api/test');
+      const url = await this.axios.post(`${backendHost}/api/url`, { long: this.long });
+
+      console.log(url);
+
+      if (url.data.error) {
+        this.error = 'something went wrong. please try again';
+        this.valid = false;
+        return;
+      } else {
+        this.short = url.data.short;
+      }
     },
     copy() {
       const helper = document.createElement('textarea');
@@ -94,33 +118,46 @@ section {
   font-family: 'Roboto', sans-serif;
   width: 100%;
   height: 100%;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
 }
 
 h1 {
   font-family: 'Montserrat', 'Roboto', sans-serif;
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
+  font-size: 2.5rem;
+
+  @media (min-width: 450px) {
+    font-size: 3rem;
+  }
+
+  @media (min-width: 600px) {
+    font-size: 4rem;
+  }
 }
 
 h2 {
-  font-size: 1.5em;
+  font-size: 1rem;
   font-weight: 300;
   color: gray;
+
+  @media (min-width: 600px) {
+    font-size: 1.5rem;
+  }
 }
 
 .input {
   margin: 5rem 0;
-  width: calc(100% - 4rem);
+  width: 100%;
   min-width: 25%;
   max-width: 40rem;
 
   input {
     width: 100%;
     padding: 0.5rem;
+    box-sizing: border-box;
     font-family: 'Ubuntu Mono', monospace;
     border: 1px solid lightgray;
     border-radius: 0.3rem 1rem;
@@ -180,6 +217,7 @@ button {
 
   p,
   a {
+    margin: 0;
     color: darkgreen;
     text-align: center;
   }
@@ -197,6 +235,20 @@ button {
     img {
       height: 1.2rem;
       cursor: pointer;
+    }
+  }
+}
+
+.links {
+  margin-top: 5rem;
+  color: gray;
+
+  a {
+    color: gray;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
     }
   }
 }

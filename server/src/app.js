@@ -1,4 +1,4 @@
-// import { json } from 'body-parser';
+import cors from 'cors';
 import express, { json } from 'express';
 import router from '~/src/api/router';
 import { initSwagger } from '~/src/api/swagger';
@@ -9,12 +9,13 @@ import { access, notify } from '~/src/util/logger';
 const app = express();
 
 app.use(json());
+app.use(cors());
 
 initMongo();
 initSwagger(app);
 
 // Middleware which logs each access to the console.
-router.use((req, res, next) => {
+app.use((req, res, next) => {
   access(`${req.method} ${req.originalUrl}`);
   next();
 });

@@ -3,6 +3,7 @@ import { generate } from 'shortid';
 import { isUri } from 'valid-url';
 import { baseUrl, frontendDist } from '~/src/config';
 import Url from '~/src/models/url';
+import { error, inform, log, notFound, warn } from '~/src/util/logger';
 
 const router = Router();
 
@@ -47,7 +48,13 @@ router.get('/:code', async (req, res) => {
   const code = req.params.code;
   const url = await Url.findOne({ code });
 
-  res.redirect(url ? url.long : '/');
+  if (!url) {
+    notFound(`${req.method} ${req.originalUrl}`);
+    return res.redirect('/');
+  }
+
+  log(`Redirected to ${url.long}`);
+  res.redirect(url.long);
 });
 
 /**
@@ -87,7 +94,10 @@ router.get('/:code', async (req, res) => {
 router.post('/api/url', async (req, res) => {
   const { long } = req.body;
 
-  if (!isUri(long)) return res.status(400).json({ error: 'Malformed URL.' });
+  if (!isUri(long)) {
+    warn(`Malfromed URL: ${long}`);
+    return res.status(400).json({ error: 'Malformed URL.' });
+  }
 
   const code = generate();
   const short = `${baseUrl}/${code}`;
@@ -95,7 +105,10 @@ router.post('/api/url', async (req, res) => {
   // Same URL as requested one
   const twin = await Url.findOne({ long });
 
-  if (twin) return res.status(201).json(twin);
+  if (twin) {
+    inform(`Prevented URL from being saved twice: ${long} -> ${short}`);
+    return res.status(201).json(twin);
+  }
 
   const url = new Url({
     long,
@@ -106,9 +119,11 @@ router.post('/api/url', async (req, res) => {
 
   try {
     const savedUrl = await url.save();
+    log(`Shortened URL: ${long} -> ${short}`);
     res.status(201).json(savedUrl);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  } catch (err) {
+    error(`Error saving URL: ${err.message}`);
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -143,11 +158,16 @@ router.get('/api/url/:code', async (req, res) => {
   const code = req.params.code;
   const url = await Url.findOne({ code });
 
-  if (!url) return res.status(404).json({ error: `No URL with ID ${code} found.` });
-  else res.status(200).json(url);
+  if (!url) {
+    notFound(`${req.method} ${req.originalUrl}`);
+    return res.status(404).json({ error: `No URL with ID ${code} found.` });
+  }
+
+  res.status(200).json(url);
 });
 
 router.get('*', (req, res) => {
+  notFound(`${req.method} ${req.originalUrl}`);
   res.redirect('/');
 });
 

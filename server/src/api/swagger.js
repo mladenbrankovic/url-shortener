@@ -1,8 +1,11 @@
 import swaggerJSDoc from 'swagger-jsdoc';
 import { serve, setup } from 'swagger-ui-express';
 import { baseUrl } from '~/src/config';
+import { log } from '~/src/util/logger';
 
 export function initSwagger(app) {
+  log('Initializing Swagger');
+
   const swaggerConfig = {
     definition: {
       openapi: '3.0.0',

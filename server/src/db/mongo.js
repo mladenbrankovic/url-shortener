@@ -1,6 +1,6 @@
 import { connect, connection as db } from 'mongoose';
 import { dbHost } from '~/src/config';
-import { error, inform, log } from '../util/logger';
+import { error, inform, log } from '~/src/util/logger';
 
 export function initMongo() {
   log('Initializing MongoDB');

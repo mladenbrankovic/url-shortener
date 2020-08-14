@@ -1,5 +1,5 @@
 import swaggerJSDoc from 'swagger-jsdoc';
-import { serve, setup } from 'swagger-ui-express';
+import swaggerUIExpress from 'swagger-ui-express';
 import config from '~/src/config';
 
 export default (app) => {
@@ -24,7 +24,7 @@ export default (app) => {
     apis: ['src/app.js', 'src/api/swagger.js', 'src/api/routes.js'],
   };
 
-  app.use('/api/docs', serve, setup(swaggerJSDoc(swaggerConfig)));
+  app.use('/api/docs', swaggerUIExpress.serve, swaggerUIExpress.setup(swaggerJSDoc(swaggerConfig)));
 
   /**
    * @swagger

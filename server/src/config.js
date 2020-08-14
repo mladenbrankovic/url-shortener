@@ -1,2 +1,5 @@
-exports.port = 8081;
-exports.domain = 'localhost:8081';
+export default {
+  port: 8081,
+  domain: 'localhost:8081',
+  dburl: 'localhost:27017',
+};

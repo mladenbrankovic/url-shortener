@@ -5,6 +5,10 @@ services:
     image: url-shortener
     hostname: url-shortener
     container_name: url-shortener
+    network_mode: host
+    restart: always
+    depends_on:
+      - url-shortener-db
     build: .
     ports:
       - '8911:8081'

@@ -4,7 +4,6 @@ COPY . .
 RUN cd ./client \
  && npm install \
  && npm run build \
- && cd .. \
- && cd ./server \
+ && cd ../server \
  && npm install \
  && npm run deploy

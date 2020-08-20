@@ -23,13 +23,13 @@
       </div>
     </div>
     <p class="links">
-      <a :href="backendHost + '/api/docs'" target="_blank">API Docs</a>
+      <a :href="backendHost + '/api/docs'" target="_blank">api docs</a>
       ·
       <a
         href="https://github.com/mladenbrankovic/url-shortener"
         target="_blank"
         rel="noopener noreferrer"
-        >GitHub</a
+        >github</a
       >
     </p>
   </section>
@@ -156,6 +156,7 @@ h2 {
     width: 100%;
     padding: 0.5rem;
     box-sizing: border-box;
+    font-size: 1rem;
     font-family: 'Ubuntu Mono', monospace;
     border: 1px solid lightgray;
     border-radius: 0.3rem 1rem;
@@ -180,6 +181,7 @@ button {
   color: white;
   border: none;
   border-radius: 0.3rem 1rem;
+  font-size: 1rem;
   cursor: pointer;
 
   &:hover {

@@ -1,19 +1,6 @@
 version: '3'
 
 services:
-  url-shortener:
-    image: url-shortener
-    hostname: url-shortener
-    container_name: url-shortener
-    restart: always
-    depends_on:
-      - url-shortener-db
-    build: .
-    ports:
-      - '8911:8081'
-    networks:
-      - url-shortener
-
   url-shortener-db:
     image: mongo
     hostname: url-shortener-db
@@ -24,8 +11,14 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-toor}
-    networks:
-      - url-shortener
 
-networks:
   url-shortener:
+    image: url-shortener
+    hostname: url-shortener
+    container_name: url-shortener
+    restart: always
+    depends_on:
+      - url-shortener-db
+    build: .
+    ports:
+      - '8911:8081'

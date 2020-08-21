@@ -6,8 +6,8 @@ services:
     hostname: url-shortener-db
     container_name: url-shortener-db
     restart: always
-    ports:
-      - '27017:27017'
+    volumes: :
+      - './data:/data/db'
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME:-root}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD:-toor}
